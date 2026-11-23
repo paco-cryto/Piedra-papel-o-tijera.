@@ -52,20 +52,13 @@ jobs:
 
       - name: Compilar APK (debug) y AAB (release)
         run: |
-          cat << 'EOF' > settings.gradle
-          pluginManagement {
-              repositories {
-                  google()
-                  mavenCentral()
-                  gradlePluginPortal()
-              }
-          }
+          printf 'pluginManagement {\n    repositories {\n        google()\n        mavenCentral()\n        gradlePluginPortal()\n    }\n}\n\ndependencyResolutionManagement {\n    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n\nrootProject.name = "PiedraPapelOTijera"\ninclude ":app"\n' > settings.gradle
+          ./gradlew assembleDebug bundleRelease
 
-          dependencyResolutionManagement {
-              repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-
+      - name: Subir APK y AAB como Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: piedra-papel-o-tijera-android
+          path: |
+            **/*.apk
+            **/*.aab
