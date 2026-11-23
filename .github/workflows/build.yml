@@ -51,7 +51,9 @@ jobs:
           chmod +x ./gradlew
 
       - name: Compilar APK (debug) y AAB (release)
-        run: ./gradlew assembleDebug bundleRelease
+        run: |
+          printf 'rootProject.name = "PiedraPapelOTijera"\ninclude(":app")\n' > /tmp/clean-settings.gradle
+          ./gradlew --settings-file /tmp/clean-settings.gradle assembleDebug bundleRelease
 
       - name: Subir APK y AAB como Artifacts
         uses: actions/upload-artifact@v4
