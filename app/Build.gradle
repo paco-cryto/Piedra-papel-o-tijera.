@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.paco.piedrapapeltijera'
+    namespace 'com.paco.piedrapapelotijera'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.paco.piedrapapeltijera"
+        applicationId "com.paco.piedrapapelotijera"
         minSdk 21
         targetSdk 34
         versionCode 1
