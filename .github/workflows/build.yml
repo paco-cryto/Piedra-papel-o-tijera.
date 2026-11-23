@@ -43,7 +43,7 @@ jobs:
         run: |
           if [ ! -f "./gradlew" ]; then
             mkdir -p /tmp/gradle-init
-            printf 'rootProject.name = "PiedraPapelOTijera"\ninclude ":app"\n' > /tmp/gradle-init/settings.gradle
+            printf 'rootProject.name = "PiedraPapelOTijera"\n' > /tmp/gradle-init/settings.gradle
             gradle wrapper --project-dir /tmp/gradle-init
             cp /tmp/gradle-init/gradlew .
             cp -r /tmp/gradle-init/gradle .
