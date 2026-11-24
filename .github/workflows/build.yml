@@ -52,6 +52,9 @@ jobs:
 
       - name: Compilar APK (debug) y AAB (release)
         run: |
+          echo "=== CONTENIDO DE app/build.gradle ==="
+          cat app/build.gradle || true
+          echo "===================================="
           if [ ! -f "build.gradle" ]; then
             printf 'buildscript {\n    repositories {\n        google()\n        mavenCentral()\n    }\n    dependencies {\n        classpath "com.android.tools.build:gradle:8.2.2"\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n' > build.gradle
           fi
