@@ -52,9 +52,11 @@ jobs:
 
       - name: Compilar APK (debug) y AAB (release)
         run: |
+          find . -maxdepth 4 \( -name "build.gradle*" -o -name "AndroidManifest.xml" \)
           [ -f "build.gradle" ] || printf 'plugins {\n    id "com.android.application" version "8.2.2" apply false\n}\n' > build.gradle
           [ -f "gradle.properties" ] || printf 'android.useAndroidX=true\norg.gradle.jvmargs=-Xmx2048m\n' > gradle.properties
           printf 'pluginManagement {\n    repositories {\n        google()\n        mavenCentral()\n        gradlePluginPortal()\n    }\n}\n\ndependencyResolutionManagement {\n    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n\nrootProject.name = "PiedraPapelOTijera"\ninclude ":app"\n' > settings.gradle
+          ./gradlew projects --stacktrace
           ./gradlew assembleDebug bundleRelease
 
       - name: Subir APK y AAB como Artifacts
