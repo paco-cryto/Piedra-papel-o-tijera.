@@ -52,12 +52,12 @@ jobs:
 
       - name: Compilar APK (debug) y AAB (release)
         run: |
-          find . -maxdepth 4 \( -name "build.gradle*" -o -name "AndroidManifest.xml" \)
-          [ -f "build.gradle" ] || printf 'plugins {\n    id "com.android.application" version "8.2.2" apply false\n}\n' > build.gradle
+          if [ ! -f "build.gradle" ]; then
+            printf 'buildscript {\n    repositories {\n        google()\n        mavenCentral()\n    }\n    dependencies {\n        classpath "com.android.tools.build:gradle:8.2.2"\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n' > build.gradle
+          fi
           [ -f "gradle.properties" ] || printf 'android.useAndroidX=true\norg.gradle.jvmargs=-Xmx2048m\n' > gradle.properties
           printf 'pluginManagement {\n    repositories {\n        google()\n        mavenCentral()\n        gradlePluginPortal()\n    }\n}\n\ndependencyResolutionManagement {\n    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n\nrootProject.name = "PiedraPapelOTijera"\ninclude ":app"\n' > settings.gradle
-          ./gradlew projects --stacktrace
-          ./gradlew assembleDebug bundleRelease
+          ./gradlew :app:assembleDebug :app:bundleRelease
 
       - name: Subir APK y AAB como Artifacts
         uses: actions/upload-artifact@v4
